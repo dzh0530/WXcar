@@ -79,6 +79,11 @@ Page({
       url: '../operate-result/operate-result'
     })
   },
+  redact: function () {
+    wx.navigateTo({
+      url: '../redact/redact'
+    })
+  },
   myPublish: function () {
     wx.navigateTo({
       url: '../my-posted/my-posted'

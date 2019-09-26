@@ -10,24 +10,30 @@ Page({
 /**
    * 添加数据
    */
-  searchBox: function (e) {
+  searchBox: function (e) { 
     let Name = e.detail.value.Name
+     
+
+    var app = getApp();
+    let url = app.globalData.URL + '/wetech-admin/api/name/create'
+    console.log("-----------------"+url)
     console.log("------"+ Name)
     wx.request({
-      url: 'http://localhost:8080/wetech-admin/api/aaa', //仅为示例，并非真实的接口地址
+      url:url, //仅为示例，并非真实的接口地址
+      method: "POST",
       data: {
-        x: '',
-        y: ''
+        id: Name,
+        name: 'sfdsdf'
       },
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
       success: res => {
-        app.globalData.userInfo = res.userInfo
+        
         this.setData({
           aa: res.data
         })
-        console.log(res.data)
+        console.log( res.data)
       }
     })
 
@@ -44,7 +50,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: res => {
-        app.globalData.userInfo = res.userInfo
+        
         this.setData({
           aa: res.data
         })

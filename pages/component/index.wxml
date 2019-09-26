@@ -6,6 +6,7 @@
       <image src="resources/pic/car7.png"></image>
       <input type='text' bindinput="onToPlace" placeholder="要到哪儿去" placeholder-class="phcolor"/>
       <button bindtap="goFilterInfo"  bindtap="filterNow" class="search_btn"  >查询</button>
+    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">aaa</button>
   </view>
   <view style='height:60px'></view>
   <view class="prcode">

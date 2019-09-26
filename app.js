@@ -1,5 +1,6 @@
 //app.js
 App({
+
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
@@ -10,6 +11,9 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+
+
+        console.log("-----"+res.code)
       }
     })
     // 获取用户信息
@@ -33,7 +37,12 @@ App({
       }
     })
   },
+
+  //设置全局请求URL
   globalData: {
-    userInfo: null
-  }
+    userInfo: null,
+    URL: 'http://192.168.1.108:8080'
+  },
+  
+  
 })

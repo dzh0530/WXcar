@@ -1,11 +1,12 @@
 {
   "pages": [
-    "pages/component/test/test",
     "pages/component/index",
     "pages/logs/logs",
+    "pages/component/test/test",
     "pages/component/my/my",
-    
     "pages/component/publish/publish"
+
+   
   ],
   "window": {
     "backgroundTextStyle": "light",
