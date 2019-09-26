@@ -1,0 +1,8 @@
+
+
+<form bindsubmit='searchBox'>
+ <input name="Name"></input>
+    <button class="nickname" form-type='submit'>预定</button>
+  
+</form>
+  <button class="nickname" bindtap="a" >预定</button>
