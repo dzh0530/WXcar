@@ -82,8 +82,12 @@
     <view class="item_m mt8" style='margin-bottom:30rpx;'>
 <view class="item_m_v righticon_gray" bindtap="myPublish"><image src="/pages/common/images/my_send.png" mode="widthFix"/>我发布的</view>
 </view>
-   <view class="item_m mt8" style='margin-bottom:4rpx;'>
+   <!-- <view class="item_m mt8" style='margin-bottom:4rpx;'>
 <view class="item_m_v righticon_gray" bindtap="topayment"><image src="/pages/common/images/qian.png" mode="widthFix"/>我的钱包</view>
+</view> -->
+
+ <view class="item_m mt8" style='margin-bottom:4rpx;'>
+<view class="item_m_v righticon_gray" bindtap="redact"><image src="/pages/common/images/userinfo.png" mode="widthFix"/>个人信息</view>
 </view>
 
 
