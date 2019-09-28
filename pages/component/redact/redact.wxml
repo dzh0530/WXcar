@@ -9,7 +9,7 @@
       <view class="list-li list-xiugai" catchtap='alterName' data-modal="modal" data-modal-name="修改姓名" data-modal-value="{{name}}" data-modal-title="name">
         <view class="list-text">
           <view class="iconfont icon-xingming moren-text"></view>
-          姓名：{{openid}}
+          姓名：{{name}}
         </view>
       </view>
       <view class="list-li list-xiugai" catchtap='alterPhone' data-modal="modal" data-modal-name="修改电话" data-modal-value="{{phone}}" data-modal-title="phone">
@@ -18,18 +18,19 @@
           电话：{{phone}}
         </view>
       </view>
-      <view class="list-li list-xiugai" catchtap='alterAge' data-modal="modal" data-modal-name="修改年龄" data-modal-value="{{age}}" data-modal-title="age">
-        <view class="list-text">
-          <view class="iconfont icon-age moren-text"></view>
-          年龄：{{age}}
-        </view>
-      </view>
-      <view class="list-li list-xiugai" catchtap='alterJialing' data-modal="modal" data-modal-name="修改驾龄" data-modal-value="{{jialing}}" data-modal-title="jialing">
+       <view class="list-li list-xiugai" catchtap='alterJialing' data-modal="modal" data-modal-name="修改驾龄" data-modal-value="{{jialing}}" data-modal-title="jialing">
         <view class="list-text">
           <view class="iconfont icon-jialing moren-text"></view>
           驾龄：{{jialing}}
         </view>
       </view>
+      <view class="list-li list-xiugai" catchtap='alterAge' data-modal="modal" data-modal-name="修改年龄" data-modal-value="{{age}}" data-modal-title="age">
+        <view class="list-text">
+          <view class="iconfont icon-age moren-text"></view>
+          身份证：{{age}}
+        </view>
+      </view>
+     
       <picker mode="region" bindchange="alterSuozaidi" value="{{region}}" custom-item="{{customItem}}">
         <view class="list-li list-xiugai"  data-modal="modal" data-modal-name="修改所在地" data-modal-value="{{suozaidi}}" data-modal-title="suozaidi">
           <view class="list-text">

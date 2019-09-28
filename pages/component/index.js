@@ -1,5 +1,5 @@
 //index.js
-
+const util = require('../../utils/util 2.js')
 var app = getApp();
 Page({
   data: {
@@ -24,6 +24,22 @@ Page({
     from_place: '',
     to_place: '',
     openid: '',
+
+    //轮播图 
+    style: "width:100%",
+    autoplay: "true", 
+    interval: "3000",
+    duration: "400",
+    current:1,
+    imageList: [],
+    nameImage: [],
+    manImage: [],
+    womenImage: [],
+    imgArray: ['http://mkzgr.top:4545/images/42534f54ffbc4a70be5ba444a626ee04.jpg',
+      'http://mkzgr.top:4545/images/454a3c20d30245afb6018dace42f4681.jpg',
+      'http://mkzgr.top:4545/images/328fa00149b347dfb507358abb226c22.jpg',
+
+    ],
 
 
 
@@ -220,6 +236,17 @@ Page({
     });
   },
   onLoad: function (options) {
+    var that = this;
+    var n = util.randomNum(that.data.imgArray.length - 1, 3)
+    var url = new Array()
+    url = url.concat(that.data.imgArray[n[0]])
+    url = url.concat(that.data.imgArray[n[1]])
+    url = url.concat(that.data.imgArray[n[2]])
+    // console.log(url)
+    this.setData({
+      imgUrls: url
+    })
+    
     var openid = options["openid"];
     var me = this;
     // app.mag.request('/carpool/carpool/getBannerPathAndNotice', {}, function (res) {

@@ -1,4 +1,5 @@
 // pages/user/redact.js
+const app = getApp();
 //获得数据库引用
  
 Page({
@@ -16,7 +17,7 @@ Page({
     suozaidi: '北京', //所在地
     spe_i: '未实名认证', //实名认证
     jiashi: '未驾驶认证', //驾驶认证
-    region: ['山东省', '枣庄市', '市中区'],
+    region: ['新疆维吾尔族自治区', '自治区直辖县级行政区划', '石河子'],
   },
 
   //打开弹出框
@@ -94,23 +95,7 @@ Page({
   //修改所在地
   alterSuozaidi(e) {
     console.log("修改所在地被点击。。。。。。。。。。", e);
-    //更新到数据库
-    var thiss = this;
-    db.collection('user').doc(this.data.openid).update({
-      data: {
-        region: e.detail.value
-      },
-      success(res) {
-        //提示
-        wx.showToast({
-          title: "修改成功！",
-          icon: "none",
-          duration: 2000
-        })
-        //刷新
-        thiss.huodeshuju();
-      }
-    });
+   
   },
 
   //修改实名认证
@@ -160,54 +145,49 @@ Page({
       }
       //当与原始ide数据相等时，不用更新数据库
       if (e.detail.value.name != this.data.modalValue) {
-        // //更新数据
-        // var thiss = this;
-        // db.collection('user').doc(this.data.openid).update({
-        //   data: {
-
-        //     name: e.detail.value.name
-        //   },
-        //   success(res) {
-        //     //提示
-        //     wx.showToast({
-        //       title: "修改成功！",
-        //       icon: "none",
-        //       duration: 2000
-        //     })
-        //     //刷新
-        //     thiss.huodeshuju();
-        //   }
-        // });
-        console.log("11111"+this.data.options)
+       
         var app = getApp();
-        let url = app.globalData.URL + '/wetech-admin/api/name/create'
+        let url = app.globalData.URL + '/wetech-admin/api/name/update'
         wx.request({
           url: url, //仅为示例，并非真实的接口地址
           method: "POST",
           data: {
             // id: e.detail.value.name,
-            id: this.data.options,
-            name: 'sfdsdf'
+            id: app.globalData.openid,
+            name: e.detail.value.name
           },
+         
           header: {
             'content-type': 'application/x-www-form-urlencoded' // 默认值
           },
+          
           success: res => {
-            //  提示
-           
+            //  提示 
             this.setData({
               name: e.detail.value.name
             })
+            if (res.data.success==true){
             wx.showToast({
               title: "修改成功！",
               icon: "none",
               duration: 2000
             })
+          }else{
+              wx.showToast({
+                title: "修改失败！",
+                icon: "none",
+                duration: 2000
+              })
+          }
             console.log(res.data)
           }
         })
-
-        
+      }else{
+        wx.showToast({
+          title: "未修改数据！",
+          icon: "none",
+          duration: 2000
+        })
       }
     
 
@@ -229,23 +209,45 @@ Page({
       }
       //当与原始ide数据相等时，不用更新数据库
       if (e.detail.value.phone != this.data.modalValue) {
-        //更新具体操作
-        var thiss = this;
-        db.collection('user').doc(this.data.openid).update({
-          data: {
-            phone: e.detail.value.phone
-          },
-          success(res) {
-            //提示
+        const app = getApp();
+        let data = {
+          id: app.globalData.openid,
+          phone: e.detail.value.phone
+        };
+        console.log("--------------" + data.name)
+        app.wxRequest('POST', '/wetech-admin/api/name/update', data, (res) => {
+          //  提示 
+         
+          if (res.data.success == true) {
             wx.showToast({
               title: "修改成功！",
               icon: "none",
               duration: 2000
             })
-            //刷新
-            thiss.huodeshuju();
+            this.setData({
+              phone: e.detail.value.phone
+            })
+          } else {
+            wx.showToast({
+              title: "修改失败！",
+              icon: "none",
+              duration: 2000
+            })
           }
-        });
+          console.log(res.data)
+        }, (err) => {
+          wx.showToast({
+            title: "修改失败！",
+            icon: "none",
+            duration: 2000
+          })
+        })
+      }else{
+        wx.showToast({
+          title: "未修改数据！",
+          icon: "none",
+          duration: 2000
+        })
       }
 
     }
@@ -266,23 +268,44 @@ Page({
       }
       //当与原始ide数据相等时，不用更新数据库
       if (e.detail.value.age != this.data.modalValue) {
-        //更新到数据库
-        var thiss = this;
-        db.collection('user').doc(this.data.openid).update({
-          data: {
-            age: e.detail.value.age
-          },
-          success(res) {
-            //提示
+        const app = getApp();
+        let data = {
+          id: app.globalData.openid,
+          card: e.detail.value.age
+        };
+        console.log("--------------" + data.name)
+        app.wxRequest('POST', '/wetech-admin/api/name/update', data, (res) => {
+         
+          if (res.data.success == true) {
             wx.showToast({
               title: "修改成功！",
               icon: "none",
               duration: 2000
             })
-            //刷新
-            thiss.huodeshuju();
+            this.setData({
+              age: e.detail.value.age
+            })
+          } else {
+            wx.showToast({
+              title: "修改失败！",
+              icon: "none",
+              duration: 2000
+            })
           }
-        });
+          console.log(res.data)
+        }, (err) => {
+          wx.showToast({
+            title: "修改失败！",
+            icon: "none",
+            duration: 2000
+          })
+        })
+      } else {
+        wx.showToast({
+          title: "未修改数据！",
+          icon: "none",
+          duration: 2000
+        })
       }
 
     }
@@ -303,23 +326,44 @@ Page({
       }
       //当与原始ide数据相等时，不用更新数据库
       if (e.detail.value.jialing != this.data.modalValue) {
-        //更新到数据库
-        var thiss = this;
-        db.collection('user').doc(this.data.openid).update({
-          data: {
-            jialing: e.detail.value.jialing
-          },
-          success(res) {
-            //提示
+        const app = getApp();
+        let data = {
+          id: app.globalData.openid,
+          data: e.detail.value.jialing
+        };
+        console.log("--------------" + data.name)
+        app.wxRequest('POST', '/wetech-admin/api/name/update', data, (res) => {
+        
+          if (res.data.success == true) {
             wx.showToast({
               title: "修改成功！",
               icon: "none",
               duration: 2000
             })
-            //刷新
-            thiss.huodeshuju();
+            this.setData({
+              jialing: e.detail.value.jialing
+            })
+          } else {
+            wx.showToast({
+              title: "修改失败！",
+              icon: "none",
+              duration: 2000
+            })
           }
-        });
+          console.log(res.data)
+        }, (err) => {
+          wx.showToast({
+            title: "修改失败！",
+            icon: "none",
+            duration: 2000
+          })
+        })
+      } else {
+        wx.showToast({
+          title: "未修改数据！",
+          icon: "none",
+          duration: 2000
+        })
       }
 
     }
@@ -380,11 +424,6 @@ Page({
         }
       }
     })
-  
-    //获得传递过来的 openid
-    this.setData({
-      openid: options.openid
-    })  
  
   }, 
   //wx5fc7744e15e8b119
@@ -403,8 +442,6 @@ Page({
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
-
-              console.log("---------------" + res.userInfo.country )
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
@@ -413,10 +450,26 @@ Page({
               wx.hideLoading()
             }
           })
+        }else{
+          wx.navigateTo({
+            url: '/pages/login/login',
+          })
         }
       }
     })
-    var thiss = this;
+     
+    let data = {
+      id: app.globalData.openid
+      // id :"o1LN65RhjPEavm9UVfY3kH1DZ0MY"
+    };
+    console.log("--------------"+data.id)
+    app.wxRequest('POST', '/wetech-admin/api/name/list', data, (res) => {
+      console.log("成功:" + res.data)
+      console.log("成功:" + JSON.stringify(res.data))
+    }, (err) => {
+      console.log("错误:" + err.errMsg)
+    })
+
     // //查询数据
     // db.collection('user').doc(this.data.openid).get({
     //   success(res) {

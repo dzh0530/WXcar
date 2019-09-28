@@ -1,9 +1,10 @@
 {
   "pages": [
+   
     "pages/component/index",
-    "pages/logs/logs",
-    "pages/component/test/test",
+    "pages/logs/logs", 
     "pages/component/my/my",
+    "pages/component/test/test",
     "pages/component/publish/publish"
 
    

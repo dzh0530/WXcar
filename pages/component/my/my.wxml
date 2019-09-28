@@ -87,17 +87,19 @@
 </view> -->
 
  <view class="item_m mt8" style='margin-bottom:4rpx;'>
-<view class="item_m_v righticon_gray" bindtap="redact"><image src="/pages/common/images/userinfo.png" mode="widthFix"/>个人信息</view>
+<view class="item_m_v righticon_gray" bindtap="redact"><image src="/pages/common/images/userinfo.png" mode="widthFix"/>个人信息<text style='margin:0 10px 0 190px;color:grey;font-size:10px;'>未认证</text> </view>
+
 </view>
 
 
-  <view class="item_m mt8" style='margin-bottom:4rpx; '>
+  <!-- <view class="item_m mt8" style='margin-bottom:4rpx; '>
 <view class="item_m_v righticon_gray" bindtap="payHistory"><image src="/pages/common/images/chong.png" mode="widthFix"/>充值记录</view>
-</view>
+</view> -->
 
 <view class="item_m"style='margin-bottom:30rpx;'>
  
-<view class="item_m_v righticon_gray" bindtap="zhuanfa"><image src="/pages/common/images/zhuan.png" mode="widthFix"/>分享推广 <text style='margin:0 10px 0 190px;color:grey;font-size:10px;'>赚取佣金</text> </view>
+<view class="item_m_v righticon_gray" bindtap="zhuanfa"><image src="/pages/common/images/zhuan.png" mode="widthFix"/>分享推广 </view>
+ <!-- <text style='margin:0 10px 0 190px;color:grey;font-size:10px;'>赚取佣金</text> -->
  
 </view>
 

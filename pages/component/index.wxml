@@ -1,21 +1,31 @@
 <!--index.wxml-->
 
 <view class="page">
-  <view class="search" style=' float: left;height:90rpx;padding:10rpx;background:white;opacity:{{0.95}};position: fixed;z-index: 990;width:100%'>
+  <view class="search" style=' float: left;height:100rpx;padding:10rpx;background:white;opacity:{{0.95}};position: fixed;z-index: 990;width:100%;padding-left:4%'>
       <input type='text' bindinput="onFromPlace" placeholder="从哪儿出发" placeholder-class="phcolor"/>
       <image src="resources/pic/car7.png"></image>
       <input type='text' bindinput="onToPlace" placeholder="要到哪儿去" placeholder-class="phcolor"/>
       <button bindtap="goFilterInfo"  bindtap="filterNow" class="search_btn"  >查询</button>
-    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">aaa</button>
+    
   </view>
-  <view style='height:60px'></view>
-  <view class="prcode">
-    <view class="prcode-box">
-    <text class='prcode-box-close'>×</text>
-    <text class='prcode-box-text'>长按识别二维码</text>
-    <image class="prcode-box-img" bindtap="previewImage" src="resources/pic/service.jpg"></image>
-    </view>
+  
+  <view style='height:50px;padding-top:15%'>
+    <swiper  style="{{style}}" indicator-dots="{{indicatordots}}"  autoplay="{{autoplay}}" interval="{{interval}}"   duration="{{duration}}" >
+  <!--indicatorDots: true,//是否显示面板指示点;
+    autoplay: true,//是否自动播放;
+    interval: 3000,//动画间隔的时间;
+    duration: 500,//动画播放的时长;-->
+    <block wx:for="{{imgUrls}}" >
+    <navigator url='/pages/mmore/mmore' >   <!--  图片跳转 -->
+      <swiper-item >
+        <image  data-url="{{item}}" src="{{item}}" class="slide-image" style="width: 100%; height: 350rpx" mode='aspectFit'/>
+      </swiper-item>
+      </navigator>
+    </block>
+  </swiper>
   </view>
+ 
+  
   <view class="share-box">
     <image class="share-img" src="{{sharePic}}" bindload="shareImageLoad" style="height:{{shareImageHeight}}px"></image>
   </view>
@@ -26,7 +36,7 @@
 
 
   
-  <swiper style='height:120px'  indicator-dots="{{indicatorDots}}"  
+  <swiper style='height:155px'  indicator-dots="{{indicatorDots}}"  
           autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">  
         <block wx:for="{{imgUrls}}">  
           <swiper-item>  

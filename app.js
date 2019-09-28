@@ -12,8 +12,27 @@ App({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
 
-
-        console.log("-----"+res.code)
+        // wx5fc7744e15e8b119
+        if (!res.code|| res.code == " ") {
+          wx.navigateTo({
+            url: '/pages/login/login',
+          })
+        }else{
+          var code = res.code
+          wx.request({
+            url: 'http://192.168.1.108:8080/wetech-admin/openid/ID', //仅为示例，并非真实的接口地址
+            data: {
+              a: code
+            },
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: res => {
+              this.globalData.openid = res.data
+              console.log("获取用户的openid:" + res.data)
+            }
+          })
+        }
       }
     })
     // 获取用户信息
@@ -41,8 +60,27 @@ App({
   //设置全局请求URL
   globalData: {
     userInfo: null,
-    URL: 'http://192.168.1.108:8080'
+    URL: 'http://192.168.1.108:8080',
+    openid:null
   },
   
-  
+  //http请求
+  wxRequest(method, url, data, callback, errFun) {
+  wx.request({
+    url: 'http://192.168.1.108:8080'+ url,
+   method: method,
+   data: data,
+   header: {
+    'content-type': method == 'GET'?'application/json':'application/x-www-form-urlencoded',
+    'Accept': 'application/json'
+   },
+   dataType: 'json',
+   success(res) {
+    callback(res);
+   },
+   fail(err) {
+    errFun(res);
+   }
+  })
+ }
 })

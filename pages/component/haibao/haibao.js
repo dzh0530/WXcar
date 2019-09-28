@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    img: "/images/txquan.png",
+    img: "../images/txquan.png",
     wechat: "/images/wechat.png",
     quan: "/images/quan.png",
     ma: "/images/ma.png",
@@ -69,33 +69,33 @@ Page({
 
     var openid = options["openid"];
     var me = this;
-    app.mag.request('/carpool/carpool/getBannerPathAndNotice', {}, function (res) {
-      me.setData({
-        bannerTitle: res.data.data.notice_title
-      });
-    });
-    app.mag.request('/carpool/banner/getBannerByLocation', { location: 1, page: 1, step: 10 }, function (res) {
-      if (res.data.data.data) {
-        var attr = [];
-        var len = res.data.data.data;
-        for (var i in len) {
-          attr[i] = { url: app.mag.apiHost + res.data.data.data[i].url }
-        };
-        me.setData({
-          imgUrls: attr
-        });
-      }
-    });
-    app.mag.request('/carpool/carpool/getShareInfo', {}, function (res) {
-      var shareDesc = res.data.data.share_desc || '人人拼车小程序，方便大家快捷、安全的拼车出行！';
-      me.setData({
-        shareTitle: res.data.data.share_title,
-        shareDesc: shareDesc
-      });
-      wx.setNavigationBarTitle({
-        title: shareDesc,
-      });
-    });
+    // app.mag.request('/carpool/carpool/getBannerPathAndNotice', {}, function (res) {
+    //   me.setData({
+    //     bannerTitle: res.data.data.notice_title
+    //   });
+    // });
+    // app.mag.request('/carpool/banner/getBannerByLocation', { location: 1, page: 1, step: 10 }, function (res) {
+    //   if (res.data.data.data) {
+    //     var attr = [];
+    //     var len = res.data.data.data;
+    //     for (var i in len) {
+    //       attr[i] = { url: app.mag.apiHost + res.data.data.data[i].url }
+    //     };
+    //     me.setData({
+    //       imgUrls: attr
+    //     });
+    //   }
+    // });
+    // app.mag.request('/carpool/carpool/getShareInfo', {}, function (res) {
+    //   var shareDesc = res.data.data.share_desc || '人人拼车小程序，方便大家快捷、安全的拼车出行！';
+    //   me.setData({
+    //     shareTitle: res.data.data.share_title,
+    //     shareDesc: shareDesc
+    //   });
+    //   wx.setNavigationBarTitle({
+    //     title: shareDesc,
+    //   });
+    // });
     wx.login({
       success: function (res) {
         if (res.code) {
@@ -145,30 +145,30 @@ Page({
     console.log(that);
 
     wx.getStorage({
-      key: 'openid',
-      fail: function (res) {
-        console.log("wx.getStorage,fail", res);
-        // 测试固定值 xp start  150
-        var data = "oUMfw0BhtctrBFaDJjHa6cI7tBqQ";
-        console.log(app.mag.apiHost)
-        var scene_img = app.mag.apiHost + '/public/uploads/img/wxacode/' + data + '.jpg'//这里添加图片的地址
-        console.log(scene_img);
-        that.setData({
-          scene: scene_img
-        })
-        //that.previewImage();
-        // 测试固定值 xp end  150
-      },
-      success: function (res) {
-        console.log(res.data);
-        console.log(app.mag.apiHost)
-        var scene_img = app.mag.apiHost + '/public/uploads/img/wxacode/' + res.data + '.jpg'//这里添加图片的地址
-        console.log(scene_img);
-        that.setData({
-          scene: scene_img
-        })
-        //that.previewImage();
-      }
+      // key: 'openid',
+      // fail: function (res) {
+      //   console.log("wx.getStorage,fail", res);
+      //   // 测试固定值 xp start  150
+      //   var data = "oUMfw0BhtctrBFaDJjHa6cI7tBqQ";
+      //   console.log(app.mag.apiHost)
+      //   var scene_img = app.mag.apiHost + '/public/uploads/img/wxacode/' + data + '.jpg'//这里添加图片的地址
+      //   console.log(scene_img);
+      //   that.setData({
+      //     scene: scene_img
+      //   })
+      //   //that.previewImage();
+      //   // 测试固定值 xp end  150
+      // },
+      // success: function (res) {
+      //   console.log(res.data);
+      //   console.log(app.mag.apiHost)
+      //   var scene_img = app.mag.apiHost + '/public/uploads/img/wxacode/' + res.data + '.jpg'//这里添加图片的地址
+      //   console.log(scene_img);
+      //   that.setData({
+      //     scene: scene_img
+      //   })
+      //   //that.previewImage();
+      // }
     });
   },
   previewImage: function (e) {

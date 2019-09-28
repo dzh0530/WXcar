@@ -11,15 +11,22 @@ Page({
     imageUrl: "page/common/images/pinche5.jpg",// 分享图片路径 @author--xp
     path: "page/component/index"//分享路径 @author--xp
   },
-  onShareAppMessage: function () { // 分享 @author--xp
-    console.log("分享");
+  onShareAppMessage: function (res) {
     return {
-      title: this.data.shareTitle,
-      imageUrl: this.data.imageUrl,
-      path: this.data.path
+      title: '我向您推荐“大豆拼车”',
+      path: '/pages/card/index/index',
+      imageUrl: '/images/mine-path.png'
     }
-
   },
+  // onShareAppMessage: function (res) { // 分享 @author--xp
+  //   console.log("分享");
+  //   return {
+  //     title: this.data.shareTitle,
+  //     imageUrl: this.data.imageUrl,
+  //     path: this.data.path
+  //   }
+
+  // },
   onReady: function () {
     wx.setNavigationBarTitle({
       title: '我的'
