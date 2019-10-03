@@ -19,6 +19,7 @@ App({
           })
         }else{
           var code = res.code
+          console.log( "----"+code)
           wx.request({
             url: 'http://192.168.1.108:8080/wetech-admin/openid/ID', //仅为示例，并非真实的接口地址
             data: {

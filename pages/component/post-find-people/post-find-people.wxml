@@ -1,24 +1,56 @@
 <view class="page page-form">
 
   <view class="mag-top-toast note {{showTopToast ? '' : 'hide-toast'}}">
-    <text class="text"><text class="warning-font">【提醒】：请选择大于当前的时间，否则信息将被系统隐藏</text></text>
+    <text class="text"><text class="warning-font" style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>【提醒】：请选择大于当前的时间，否则信息将被系统隐藏</text></text>
     <view class="close" bindtap="closeTopToast"></view>
   </view>
   <view class="pay-box font-color clearfix submit-form-top-title {{showTopToast ? 'need-offsety' : ''}}">
-<text>拼车类型:</text>
-    <text class="type font-color fr">人找车</text>
-    <!-- <text class="infor">每条信息{{customerPostCost}}元（您的余额：{{userAmount}}元）</text>
-   <button size="mini" bindtap='topayment' class="pay-btn bg-color fr">点击充值</button> -->
+    <text class="infor">每条信息{{ownersPostCost}}元（您的余额：{{userAmount}}元）</text>
+    <button size="mini" bindtap='topayment' class="pay-btn bg-color fr">点击充值</button>
   </view>
-  <!-- <view class="pinche-type">
+  <view class="pinche-type">
     <text>拼车类型:</text>
-    <text class="type font-color fr">人找车</text>
-  </view> -->
+    <text class="type font-color fr">车找人</text>
+  </view>
 
   <view class="weui-cells__title">
     <text>填写拼车信息</text>
   </view>
+
+
   <view class="weui-cells" style='padding:0 3rpx; margin: 0 15rpx;border-radius: 13px;'>
+
+
+    <!--<view class="weui-cell weui-cell_access" >
+            <view class="weui-cell__hd">
+                <text class="weui-label">拼车场景</text>
+            </view>
+            <view class="weui-cell__bd sex-text">
+             <view class="i_input">
+<view class="i_lable">
+
+</view>
+<view >
+<radio-group class="radio-group" bindchange="radioChange">
+  <label class="radio" >
+    <radio value="1" checked="{{usersex==1}}"/>单次拼车
+  </label>
+
+   <label class="radio" >
+    <radio value="2" checked="{{usersex==2}}"/>每天拼车
+  </label>
+</radio-group>
+
+</view>
+</view>
+
+            </view>
+       
+        </view>-->
+
+
+
+
     <view class="weui-cell">
       <view class="weui-cell__hd">
         <text class="weui-label">起点<text class='mustIcon'>*</text></text>
@@ -29,7 +61,16 @@
         <input class="weui-input" style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' bindinput="onFromPlace" placeholder-class="mag-plhd" placeholder="从哪儿出发" value="{{from_place}}" />
       </view>
       <view bindtap="open_map_chonse">
-        <image src="/pages/common/images/ding.png" mode="widthFix" /> </view>
+        <image src="../../../../page/common/images/ding.png" mode="widthFix" /> </view>
+    </view>
+
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <text class="weui-label">途径</text>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input" bindinput="onAfterPlace" bindtap="sexAfterPlace" placeholder-class="mag-plhd" placeholder="经过哪儿" value="{{mid_place}}" />
+      </view>
     </view>
     <view class="weui-cell">
       <view class="weui-cell__hd">
@@ -39,10 +80,17 @@
         <input class="weui-input" style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' bindinput="onToPlace" placeholder-class="mag-plhd" placeholder="要到哪儿去" value="{{to_place}}" />
       </view>
       <view bindtap="open_map_chonse1">
-        <image src="/pages/common/images/ding.png" mode="widthFix" /> </view>
+        <image src="../../../../page/common/images/ding.png" mode="widthFix" /> </view>
 
     </view>
-  
+   <!-- <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <text class="weui-label">总价</text>
+      </view>
+      <view class="weui-cell__bd">
+        <text class="weui-input">{{distance>1000?distance*0.001:distance}} {{distance>1000?"公里":"米"}} × {{price}} ≈ {{count}} 元</text>
+      </view>
+    </view>-->
     <view class="weui-cell weui-cell_select weui-cell_select-after">
       <view class="weui-cell__hd">
         <text class="weui-label">日期<text class='mustIcon'>*</text></text>
@@ -65,12 +113,13 @@
             {{time}}
           </view>
         </picker>
-
       </view>
     </view>
+
+
     <view class="weui-cell weui-cell_select weui-cell_select-after">
       <view class="weui-cell__hd">
-        <text class="weui-label">同行<text class='mustIcon'>*</text></text>
+        <text class="weui-label">空位<text class='mustIcon'>*</text></text>
       </view>
       <view class="weui-cell__bd">
         <picker bindchange="countOfPassagersChange" value="{{defaultCountOfPassagers}}" range="{{countOfPassagers}}">
@@ -80,24 +129,25 @@
         </picker>
       </view>
     </view>
+
   </view>
 
 
   <view class="weui-cells weui-cells_form" style='padding:0 3rpx; margin: 20rpx 15rpx 15rpx 15rpx;border-radius: 13px;  height: 180rpx;'>
     <view class="weui-cell">
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" value="{{note}}" bindblur="onNote" placeholder-class="mag-plhd" maxlength='50' placeholder="补充信息：请在此处添加或点击下方预设内容快捷选择" />
+        <textarea class="weui-textarea" value="{{note}}" maxlength='50' bindblur="onNote" placeholder-class="mag-plhd" placeholder="补充信息：请在此处添加或点击下方预设内容快捷选择" />
       </view>
 
     </view>
   </view>
 
   <view class="qk_tips" style='padding:0 20rpx; border-radius: 13px; '>
-    <text bindtap="tap_txt" data-text="谢绝出租车；">谢绝出租车；</text>
-    <text bindtap="tap_txt" data-text="大人加小孩；">大人加小孩；</text>
-    <text bindtap="tap_txt" data-text="最好是女车主；">最好是女车主；</text>
-    <text bindtap="tap_txt" data-text="微信/支付宝付款；">微信/支付宝付款；</text>
-    <text bindtap="tap_txt" data-text="上下班，长期拼车；">上下班，长期拼车；</text>
+    <text bindtap="tap_txt" data-text="拒载醉酒乘客；">拒载醉酒乘客；</text>
+    <text bindtap="tap_txt" data-text="小孩半价；">小孩半价；</text>
+    <text bindtap="tap_txt" data-text="有大行李的提前说；">有大件行李的提前说；</text>
+    <text bindtap="tap_txt" data-text="支持微信/支付宝收款；">支持微信/支付宝收款；</text>
+    <text bindtap="tap_txt" data-text="长期拼车，价格优惠；">长期拼车，价格优惠；</text>
   </view>
 
 
@@ -107,7 +157,7 @@
   </view>
   <view class="weui-cells contact-form" style='padding:0 3rpx; margin: 0 15rpx;border-radius: 13px;'>
     <view class="weui-cell weui-cell_access">
-      <image src="/pages/common/images/ren.png" mode="widthFix" />
+      <image src="../../../../page/common/images/ren.png" mode="widthFix" />
       <view class="weui-cell__hd">
         <text class="weui-label">姓名<text class='mustIcon'>*</text></text>
       </view>
@@ -117,7 +167,7 @@
 
     </view>
     <view class="weui-cell weui-cell_access">
-      <image src="/pages/common/images/sex.png" mode="widthFix" />
+      <image src="../../../../page/common/images/sex.png" mode="widthFix" />
       <view class="weui-cell__hd">
         <text class="weui-label">性别</text>
       </view>
@@ -132,6 +182,7 @@
                 <radio value="1" checked="{{usersex==1}}" />男
               </label>
 
+
               <label class="radio">
                 <radio value="2" checked="{{usersex==2}}" />女
               </label>
@@ -144,7 +195,7 @@
 
     </view>
     <view class="weui-cell weui-cell_access">
-      <image src="/pages/common/images/shou.png" mode="widthFix" />
+      <image src="../../../../page/common/images/shou.png" mode="widthFix" />
       <view class="weui-cell__hd">
         <text class="weui-label">电话<text class='mustIcon'>*</text></text>
       </view>
@@ -154,7 +205,7 @@
 
     </view>
     <view class="weui-cell">
-      <image src="/pages/common/images/kefu.png" mode="widthFix" />
+      <image src="../../../../page/common/images/kefu.png" mode="widthFix" />
       <view class="weui-cell__hd">
         <text class="weui-label">微信号</text>
       </view>
@@ -165,7 +216,7 @@
   </view>
 
 
-  <!-- <view class="switchs-box clearfix">
+  <view class="switchs-box clearfix">
     <text class="switch-text">我要置顶</text>
     <switch bindchange="switchChange" class="fr" />
   </view>
@@ -180,8 +231,25 @@
     <view class="switchs-box isTopTips isTopColor999">本次置顶花费：
       <text class="isTopText">{{isTopTime * TopDayCost}}.00元</text>
     </view>
-  </view> -->
+  </view>
+<view  wx:if="{{price>0}}">
+  <view class="switchs-box clearfix">
+    <text class="switch-text">系统估价</text>
+    <switch bindchange="switchChange1" class="fr" />
+  </view>
+  <view class="switchs-box clearfix isTop" wx:if="{{gujia}}">
+    <view class="switchs-box isTopTips  isTopColor999">全程距离约
 
+    
+    <text class="isTopText"style="color:grey">{{distance>1000?distance*0.001:distance}} {{distance>1000?"公里":"米"}}</text>
+      <text class="isTopText"style="color:grey;font-size:10px;float:right">(注：手动填写的地点无法获取距离)</text>
+    </view>
+
+    <view class="switchs-box isTopTips isTopColor999">系统估价：
+      <text class="isTopText">{{count}}元</text>
+    </view>
+  </view>
+  </view>
 
 
 
