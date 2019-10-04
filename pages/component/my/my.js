@@ -2,7 +2,7 @@ var app = getApp();
 Page({
   data: {
     ma: '',
-
+    state:'未认证',
     username: "",
     userimg: "",
     useramount: "0",
@@ -33,6 +33,17 @@ Page({
     })
   },
   onShow: function () {
+    console.log("------------" + app.globalData.state)
+
+    if (app.globalData.state == '1'){
+        this.setData({
+          state:'待审核'
+        })
+    } else if (app.globalData.state ='2' ){
+      this.setData({
+        state: '已认证'
+      })
+    }
     var me = this;
     wx.login({
       success: function (res) {

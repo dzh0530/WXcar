@@ -4,7 +4,7 @@
     <text class="text"><text class="warning-font">【提醒】：请选择大于当前的时间，否则信息将被系统隐藏</text></text>
     <view class="close" bindtap="closeTopToast"></view>
   </view>
-  <view class="pay-box font-color clearfix submit-form-top-title {{showTopToast ? 'need-offsety' : ''}}">
+  <view class="pay-box font-color clearfix submit-form-top-title {{showTopToast ? 'need-offsety' : ''}}" style="font-size: 15px;" >
 <text>拼车类型:</text>
     <text class="type font-color fr">人找车</text>
     <!-- <text class="infor">每条信息{{customerPostCost}}元（您的余额：{{userAmount}}元）</text>

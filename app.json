@@ -8,10 +8,8 @@
 "pages/component/test/test",
     "pages/component/post-find-people/post-find-people",
     "pages/component/post-find-car/post-find-car",
-    "pages/component/publish/publish"
-    
-
-
+    "pages/component/publish/publish",
+    "pages/component/redact/redact"
    
   ],
   "window": {

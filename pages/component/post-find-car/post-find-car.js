@@ -122,7 +122,7 @@ Page({
           from_place_latitude: res.latitude,//@author--xp
           from_place: res.name
         });
-        that.calculateDistance(); //计算距离 @author--xp
+        // that.calculateDistance(); //计算距离 @author--xp
         //address: res.name || res.address
       },
       fail: function (res) {
@@ -148,7 +148,7 @@ Page({
           to_place_latitude: res.latitude,//@author--xp
           to_place: res.name
         });
-        that.calculateDistance(); //计算距离 @author--xp
+        // that.calculateDistance(); //计算距离 @author--xp
         //address: res.name || res.address
       },
       fail: function (res) {

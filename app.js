@@ -42,6 +42,7 @@ App({
             success: res => {
               this.globalData.openid = res.data
               console.log("获取用户的openid:" + res.data)
+              this.state()
             }
           })
         }
@@ -67,6 +68,11 @@ App({
         }
       }
     })
+
+
+
+
+
   },
 
 
@@ -74,7 +80,32 @@ App({
   globalData: {
     userInfo: null,
     URL: 'http://192.168.1.108:8080',
-    openid:null
+    openid:null,
+    state:null
+  },
+
+
+  state:function(){
+
+    wx.request({
+      url: 'http://192.168.1.108:8080/wetech-admin//api/name/list', //仅为示例，并非真实的接口地址
+      method: "POST",
+      data: {
+        id: this.globalData.openid
+      },
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      success: res => {
+
+        if (res.data.state != "") {
+          console.log("获取用户的状态:" + res.data[0].state)
+          this.globalData.state = res.data[0].state
+        } else { 
+          console.log("未注册")
+        }
+      }
+    })
   },
   
   //http请求

@@ -6,6 +6,13 @@
       <view class="geren-view-name" wx:if="{{userInfo!=false}}">{{userInfo.nickName}}</view>
     </view>
     <view class="list-box">
+
+      
+        <view class="list-text">
+          <view  style=" background-color:yellow;width:570rpx;color:red;text-align:center;font-weight:550"> {{state}}</view>
+        
+        </view>
+      
       <view class="list-li list-xiugai" catchtap='alterName' data-modal="modal" data-modal-name="修改姓名" data-modal-value="{{name}}" data-modal-title="name">
         <view class="list-text">
           <view class="iconfont icon-xingming moren-text"></view>
@@ -24,7 +31,7 @@
           驾龄：{{jialing}}
         </view>
       </view>
-      <view class="list-li list-xiugai" catchtap='alterAge' data-modal="modal" data-modal-name="修改年龄" data-modal-value="{{age}}" data-modal-title="age">
+      <view class="list-li list-xiugai" catchtap='alterAge' data-modal="modal" data-modal-name="修改身份证" data-modal-value="{{age}}" data-modal-title="age">
         <view class="list-text">
           <view class="iconfont icon-age moren-text"></view>
           身份证：{{age}}
@@ -54,6 +61,9 @@
     </view>
   </view>
 </view>
+ <view class="mag-submitbtn-wrap" wx:if="{{state !='正在审核认证！请耐心等待'}}"  >
+    <button bindtap="postNow" class="mag-submit-btn" type="primary"  style=" background-color:rgb(153, 238, 18)">{{stateadd}}</button>
+  </view>
 
 <!-- 弹出框 -->
 

@@ -87,7 +87,7 @@
 </view> -->
 
  <view class="item_m mt8" style='margin-bottom:4rpx;'>
-<view class="item_m_v righticon_gray" bindtap="redact"><image src="/pages/common/images/userinfo.png" mode="widthFix"/>个人信息<text style='margin:0 10px 0 190px;color:grey;font-size:10px;'>未认证</text> </view>
+<view class="item_m_v righticon_gray" bindtap="redact"><image src="/pages/common/images/userinfo.png" mode="widthFix"/>个人信息<text style='margin:0 10px 0 190px;color:grey;font-size:10px;color:red'>{{state}}</text> </view>
 
 </view>
 

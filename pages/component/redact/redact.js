@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    state:'未提交申请',
     avatarUrl: '', //用户头像地址
     userInfo: '', //用户名
     name: '请输入姓名', //姓名
@@ -18,6 +19,7 @@ Page({
     spe_i: '未实名认证', //实名认证
     jiashi: '未驾驶认证', //驾驶认证
     region: ['新疆维吾尔族自治区', '自治区直辖县级行政区划', '石河子'],
+    stateadd:"申请认证",
   },
 
   //打开弹出框
@@ -260,7 +262,7 @@ Page({
       if (e.detail.value.age == '') {
         //提示
         wx.showToast({
-          title: "年龄不能为空",
+          title: "身份证不能为空",
           icon: "none",
           duration: 2000
         })
@@ -436,7 +438,6 @@ Page({
      // 获取用户信息
      wx.getSetting({
       success: res => {
-
        
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
@@ -445,49 +446,129 @@ Page({
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
+      // id :"o1LN65RhjPEavm9UVfY3kH1DZ0MY"
               })
               //关闭加载...
               wx.hideLoading()
             }
           })
-        }else{
+        } else {
           wx.navigateTo({
             url: '/pages/login/login',
           })
         }
       }
     })
-     
+
     let data = {
       id: app.globalData.openid
-      // id :"o1LN65RhjPEavm9UVfY3kH1DZ0MY"
-    };
-    console.log("--------------"+data.id)
+    }
+
+    //查询数据
     app.wxRequest('POST', '/wetech-admin/api/name/list', data, (res) => {
-      console.log("成功:" + res.data)
       console.log("成功:" + JSON.stringify(res.data))
+      this.setData({
+       name:res.data[0].name,
+       phone:res.data[0].phone,
+       jialing:res.data[0].card,
+       age:res.data[0].data
+      })
+      if (res.data[0].state==1){
+        this.setData({
+          state:"正在审核认证！请耐心等待"
+        })
+       
+      } else if (res.data[0].state == 2){
+        this.setData({
+          state:"已通过认证！",
+          stateadd:"重新认证"
+        }) 
+      }
+
     }, (err) => {
       console.log("错误:" + err.errMsg)
     })
 
-    // //查询数据
-    // db.collection('user').doc(this.data.openid).get({
-    //   success(res) {
-    //     // res.data 包含该记录的数据
-    //     thiss.setData({
-    //       name: res.data.name, //姓名
-    //       phone: res.data.phone, //电话
-    //       age: res.data.age, //年龄
-    //       jialing: res.data.jialing, //驾龄
-    //       suozaidi: res.data.suozaidi, //所在地
-    //       spe_i: res.data.spe_i, //实名认证
-    //       jiashi: res.data.jiashi, //驾驶认证
-    //       region: res.data.region, //所在地
-    //     })
-    //   }
-    // })
+ 
   },
 
+  //申请认证
+  postNow: function(){
+    console.log("------" + this.data.name)
+    if (this.data.name == undefined) {
+      //提示
+      wx.showToast({
+        title: "姓名不能为空",
+        icon: "none",
+        duration: 2000
+      })
+      return;
+    }
+    var reg = /^1[0-9]{10}$/; 
+    if (!reg.test(this.data.phone)) {
+      //提示
+      wx.showToast({
+        title: "请输入正确电话",
+        icon: "none",
+        duration: 2000
+      })
+      return;
+    }
+    if (this.data.jialing == undefined) {
+      //提示
+      wx.showToast({
+        title: "驾临不能为空",
+        icon: "none",
+        duration: 2000
+      })
+      return;
+    }
+    if (this.data.age == undefined) {
+      //提示
+      wx.showToast({
+        title: "身份证不能为空",
+        icon: "none",
+        duration: 2000
+      })
+      return;
+    }
+
+    var that = this
+wx.showModal({
+  title: '申请认证',
+  content: '请核对信息后提交！可联系客服加快进度',
+  success:function(res){
+    if(res.confirm){
+    let data = {
+      id: app.globalData.openid,
+      state: "1" 
+    };
+    console.log("--------------" + data.id)
+    app.wxRequest('POST', '/wetech-admin/api/name/update', data, (res) => {
+
+      if (res.data.success == true) {
+        wx.showToast({
+          title: "申请成功！",
+          icon: "none",
+          duration: 2000
+        })
+        console.log("-----------------------")
+        getApp().globalData.state = '1'
+        that.onShow()
+      } else {
+        wx.showToast({
+          title: "申请失败！",
+          icon: "none",
+          duration: 2000
+        })
+      }
+    }, (err) => {
+      console.log("错误:" + err.errMsg)
+    })
+    }
+  }
+})
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
