@@ -189,5 +189,43 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
+
+templateSend: function (e) {
+console.log("---------------------"+e.detail.formId)
+  console.log("---------------------" + app.globalData.openid)
+  //   var _this = this;
+  //   var openId = _this.data.openId;
+  //   // 表单需设置report-submit="true"
+  //   var formId = e.detail.formId;
+
+  //   if (!formId || 'the formId is a mock one' === formId) {
+  //     _this.setData({
+  //       logMessage: '[fail]请使用真机调试，否则获取不到formId'
+  //     });
+  //     return;
+  //   }
+  //  wx.request({
+  //   url: requestHost + "/template_send",
+  //   data: {
+  //     openId: openId,
+  //     formId: formId
+  //   },
+  //   method: 'POST',
+  //   success: function (res) {
+  //     if (res.data.status === 0) {
+  //       _this.setData({
+  //         logMessage: '发送模板消息成功[' + new Date().getTime() + ']'
+  //       });
+  //     }
+  //   },
+  //   fail: function (err) {
+  //     _this.setData({
+  //       logMessage: '[fail]' + JSON.stringify(err)
+  //     });
+  //   }
+  // });
+}
+
 })

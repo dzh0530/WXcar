@@ -1,6 +1,17 @@
 //app.js
 App({
 
+  mag: {
+  alert: function (msg) {
+    wx.showModal({
+      title: '提示',
+      content: msg,
+      success: function (res) {
+      }
+    });
+  },
+  },
+
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
@@ -58,6 +69,7 @@ App({
     })
   },
 
+
   //设置全局请求URL
   globalData: {
     userInfo: null,
@@ -84,4 +96,5 @@ App({
    }
   })
  }
+ 
 })

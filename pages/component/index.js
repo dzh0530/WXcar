@@ -247,6 +247,7 @@ Page({
       imgUrls: url
     })
     
+    
     var openid = options["openid"];
     var me = this;
     // app.mag.request('/carpool/carpool/getBannerPathAndNotice', {}, function (res) {

@@ -1,11 +1,12 @@
 {
   "pages": [
    
+    
     "pages/component/index",
     "pages/logs/logs", 
     "pages/component/my/my",
-    "pages/component/test/test",
-"pages/component/post-find-people/post-find-people",
+"pages/component/test/test",
+    "pages/component/post-find-people/post-find-people",
     "pages/component/post-find-car/post-find-car",
     "pages/component/publish/publish"
     

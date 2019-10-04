@@ -72,110 +72,94 @@ Page({
 
   },
 
-  open_map_chonse1: function () {
-    var that = this;
-    wx.chooseLocation({
-      success: function (res) {
-        that.setData({
-          to_place_longitude: res.longitude,//@author--xp
-          to_place_latitude: res.latitude,//@author--xp
-          to_place: res.name
-        });
-        that.calculateDistance(); //计算距离 @author--xp
-        //address: res.name || res.address
-      },
-      fail: function (res) {
-        // wx.showToast({
-        //   image: '../../resource/images/static/error.png',
-        //   title: '调用失败,本机不支持地图选择地址!',
-        // });
-      },
-      complete: function (res) {
-        //console.log(res);
-      }
-    });
+  // open_map_chonse1: function () {
+  //   var that = this;
+  //   wx.chooseLocation({
+  //     success: function (res) {
+  //       that.setData({
+  //         to_place_longitude: res.longitude,//@author--xp
+  //         to_place_latitude: res.latitude,//@author--xp
+  //         to_place: res.name
+  //       });
+  //       that.calculateDistance(); //计算距离 @author--xp
+  //       //address: res.name || res.address
+  //     },
+  //     fail: function (res) {
+  //       // wx.showToast({
+  //       //   image: '../../resource/images/static/error.png',
+  //       //   title: '调用失败,本机不支持地图选择地址!',
+  //       // });
+  //     },
+  //     complete: function (res) {
+  //       //console.log(res);
+  //     }
+  //   });
 
 
-  },
+  // },
 
-  /**
-   * 计算距离
-   * @author--xp
-   */
-  calculateDistance: function () {
-    var that = this;
-    if (that.data.from_place_latitude == 0 || that.data.to_place_latitude == 0) return;
-    var originStr = '' + that.data.from_place_longitude + ',' + that.data.from_place_latitude;
-    var destinationStr = '' + that.data.to_place_longitude + ',' + that.data.to_place_latitude;
-    myAmapFun.getDrivingRoute({
-      origin: originStr,
-      destination: destinationStr,
-      success: function (data) {
-        console.log('calculateDistance', data);
-        var points = [];
-        if (data.paths && data.paths[0] && data.paths[0].steps) {
-          var steps = data.paths[0].steps;
-          for (var i = 0; i < steps.length; i++) {
-            var poLen = steps[i].polyline.split(';');
-            for (var j = 0; j < poLen.length; j++) {
-              points.push({
-                longitude: parseFloat(poLen[j].split(',')[0]),
-                latitude: parseFloat(poLen[j].split(',')[1])
-              })
-            }
-          }
-        }
-        if (JSON.stringify(points).length<2000){
-          that.setData({
-            polyline: [{
-              points: points,
-              color: app.mag.polyline_color,
-              width: app.mag.polyline_width
-            }]
-          });
-        }
-        else {
-          that.setData({
-            polyline: [] // 长多太长 get 传值报错 
-          });
-        }
+  // /**
+  //  * 计算距离
+  //  * @author--xp
+  //  */
+  // calculateDistance: function () {
+  //   var that = this;
+  //   if (that.data.from_place_latitude == 0 || that.data.to_place_latitude == 0) return;
+  //   var originStr = '' + that.data.from_place_longitude + ',' + that.data.from_place_latitude;
+  //   var destinationStr = '' + that.data.to_place_longitude + ',' + that.data.to_place_latitude;
+  //   myAmapFun.getDrivingRoute({
+  //     origin: originStr,
+  //     destination: destinationStr,
+  //     success: function (data) {
+  //       console.log('calculateDistance', data);
+  //       var points = [];
+  //       if (data.paths && data.paths[0] && data.paths[0].steps) {
+  //         var steps = data.paths[0].steps;
+  //         for (var i = 0; i < steps.length; i++) {
+  //           var poLen = steps[i].polyline.split(';');
+  //           for (var j = 0; j < poLen.length; j++) {
+  //             points.push({
+  //               longitude: parseFloat(poLen[j].split(',')[0]),
+  //               latitude: parseFloat(poLen[j].split(',')[1])
+  //             })
+  //           }
+  //         }
+  //       }
+  //       if (JSON.stringify(points).length<2000){
+  //         that.setData({
+  //           polyline: [{
+  //             points: points,
+  //             color: app.mag.polyline_color,
+  //             width: app.mag.polyline_width
+  //           }]
+  //         });
+  //       }
+  //       else {
+  //         that.setData({
+  //           polyline: [] // 长多太长 get 传值报错 
+  //         });
+  //       }
         
-        if (data.paths[0] && data.paths[0].distance) {
-          that.setData({
-            distance: parseInt(data.paths[0].distance),
-            count: (parseInt(data.paths[0].distance) * that.data.price * 0.001).toFixed(2)
-          });
-        }
+  //       if (data.paths[0] && data.paths[0].distance) {
+  //         that.setData({
+  //           distance: parseInt(data.paths[0].distance),
+  //           count: (parseInt(data.paths[0].distance) * that.data.price * 0.001).toFixed(2)
+  //         });
+  //       }
 
 
-      },
-      fail: function (info) {
-        console.log("calculateDistance-X-fail", info);
-        // wx.showToast({
-        //   image: '../../resource/images/static/error.png',
-        //   title: '调用失败,本机不支持测距!',
-        // });
-      }
-    });
-  },//calculateDistance:function(){
+  //     },
+  //     fail: function (info) {
+  //       console.log("calculateDistance-X-fail", info);
+  //       // wx.showToast({
+  //       //   image: '../../resource/images/static/error.png',
+  //       //   title: '调用失败,本机不支持测距!',
+  //       // });
+  //     }
+  //   });
+  // },//calculateDistance:function(){
 
-  /**
-  * 获取单价
-  * @author--xp
-  */
-  getPrice: function () {
-    var me = this;
-    app.mag.request('/carpool/carpool/getPrice', '', function (res) {
-      console.log(res.data.data);
-      if (res.data.success) {
-        me.setData({
-          price: parseFloat(res.data.data).toFixed(2)
-        })
-      } else {
 
-      }
-    });
-  },
   /**
   * 快捷信息填写
   */
@@ -198,42 +182,42 @@ Page({
     me.getPrice();//获取单价 @author--xp
 
   },
-  formatUserinfo: function (_uname, _usex, _uphone) {
-    var _ushowname = '';
-    if (_usex == 1) {
-      _ushowname = _uname.substring(0, 1) + '先生';
-    } else if (_usex == 2) {
-      _ushowname = _uname.substring(0, 1) + '女士';
-    }
-    this.setData({
-      usershowname: _ushowname,
-      username: _uname,
-      usersex: _usex == 1 ? '男' : '女',
-      userphone: _uphone
-    });
-  },
+  // formatUserinfo: function (_uname, _usex, _uphone) {
+  //   var _ushowname = '';
+  //   if (_usex == 1) {
+  //     _ushowname = _uname.substring(0, 1) + '先生';
+  //   } else if (_usex == 2) {
+  //     _ushowname = _uname.substring(0, 1) + '女士';
+  //   }
+  //   this.setData({
+  //     usershowname: _ushowname,
+  //     username: _uname,
+  //     usersex: _usex == 1 ? '男' : '女',
+  //     userphone: _uphone
+  //   });
+  // },
   //加载联系人信息
-  loadUserInfo: function () {
-    var me = this;
-    app.mag.request('/carpool/carpool/getuserinfo', {}, function (res) {
-      if (res.data.success) {
-        if (res.data.data.name && res.data.data.phone && res.data.data.sex && res.data.data.car) {
-          me.setData({
-            username: res.data.data.name,
-            usersex: res.data.data.sex === 1 ? '1' : '2',
-            userphone: res.data.data.phone,
-            car: res.data.data.car
+  // loadUserInfo: function () {
+  //   var me = this;
+  //   app.mag.request('/carpool/carpool/getuserinfo', {}, function (res) {
+  //     if (res.data.success) {
+  //       if (res.data.data.name && res.data.data.phone && res.data.data.sex && res.data.data.car) {
+  //         me.setData({
+  //           username: res.data.data.name,
+  //           usersex: res.data.data.sex === 1 ? '1' : '2',
+  //           userphone: res.data.data.phone,
+  //           car: res.data.data.car
 
-          });
-        }
-        me.setData({
-          paymoney: res.data.post_cost
-        });
-      } else {
-        app.mag.alert(rs.data.msg);
-      }
-    });
-  },
+  //         });
+  //       }
+  //       me.setData({
+  //         paymoney: res.data.post_cost
+  //       });
+  //     } else {
+  //       app.mag.alert(rs.data.msg);
+  //     }
+  //   });
+  // },
 
 
 

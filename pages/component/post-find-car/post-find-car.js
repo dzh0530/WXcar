@@ -46,61 +46,62 @@ Page({
      * 计算距离
      * @author--xp
      */
-  calculateDistance: function () {
-    var that = this;
-    if (that.data.from_place_latitude == 0 || that.data.to_place_latitude == 0) return;
-    var originStr = '' + that.data.from_place_longitude + ',' + that.data.from_place_latitude;
-    var destinationStr = '' + that.data.to_place_longitude + ',' + that.data.to_place_latitude;
-    myAmapFun.getDrivingRoute({
-      origin: originStr,
-      destination: destinationStr,
-      success: function (data) {
-        console.log('calculateDistance', data);
-        var points = [];
-        if (data.paths && data.paths[0] && data.paths[0].steps) {
-          var steps = data.paths[0].steps;
-          for (var i = 0; i < steps.length; i++) {
-            var poLen = steps[i].polyline.split(';');
-            for (var j = 0; j < poLen.length; j++) {
-              points.push({
-                longitude: parseFloat(poLen[j].split(',')[0]),
-                latitude: parseFloat(poLen[j].split(',')[1])
-              })
-            }
-          }
-        }
-        if (JSON.stringify(points).length < 2000) {
-          that.setData({
-            polyline: [{
-              points: points,
-              color: app.mag.polyline_color,
-              width: app.mag.polyline_width
-            }]
-          });
-        }
-        else {
-          that.setData({
-            polyline: [] // 长多太长 get 传值报错 
-          });
-        }
-        if (data.paths[0] && data.paths[0].distance) {
-          that.setData({
-            distance: parseInt(data.paths[0].distance),
-            count: (parseInt(data.paths[0].distance) * that.data.price * 0.001).toFixed(2)
-          });
-        }
+  // calculateDistance: function () {
+  //   var that = this;
+  //   if (that.data.from_place_latitude == 0 || that.data.to_place_latitude == 0) return;
+  //   var originStr = '' + that.data.from_place_longitude + ',' + that.data.from_place_latitude;
+  //   var destinationStr = '' + that.data.to_place_longitude + ',' + that.data.to_place_latitude;
+  //   myAmapFun.getDrivingRoute({
+  //     origin: originStr,
+  //     destination: destinationStr,
+  //     success: function (data) {
+  //       console.log('calculateDistance', data);
+  //       var points = [];
+  //       if (data.paths && data.paths[0] && data.paths[0].steps) {
+  //         var steps = data.paths[0].steps;
+  //         for (var i = 0; i < steps.length; i++) {
+  //           var poLen = steps[i].polyline.split(';');
+  //           for (var j = 0; j < poLen.length; j++) {
+  //             points.push({
+  //               longitude: parseFloat(poLen[j].split(',')[0]),
+  //               latitude: parseFloat(poLen[j].split(',')[1])
+  //             })
+  //           }
+  //         }
+  //       }
+  //       if (JSON.stringify(points).length < 2000) {
+  //         that.setData({
+  //           polyline: [{
+  //             points: points,
+  //             color: app.mag.polyline_color,
+  //             width: app.mag.polyline_width
+  //           }]
+  //         });
+  //       }
+  //       else {
+  //         that.setData({
+  //           polyline: [] // 长多太长 get 传值报错 
+  //         });
+  //       }
+  //       if (data.paths[0] && data.paths[0].distance) {
+  //         that.setData({
+  //           distance: parseInt(data.paths[0].distance),
+  //           count: (parseInt(data.paths[0].distance) * that.data.price * 0.001).toFixed(2)
+  //         });
+  //       }
 
 
-      },
-      fail: function (info) {
-        console.log("calculateDistance-X-fail", info);
-        // wx.showToast({
-        //   image: '../../resource/images/static/error.png',
-        //   title: '调用失败,本机不支持测距!',
-        // });
-      }
-    });
-  },//calculateDistance:function(){
+  //     },
+  //     fail: function (info) {
+  //       console.log("calculateDistance-X-fail", info);
+  //       // wx.showToast({
+  //       //   image: '../../resource/images/static/error.png',
+  //       //   title: '调用失败,本机不支持测距!',
+  //       // });
+  //     }
+  //   });
+  // },
+  //calculateDistance:function(){
 
   /**
   * 获取单价
@@ -362,6 +363,7 @@ Page({
     });
   },
   postNow: function () {
+    var app = getApp();
     var me = this;
     if (!me.data.username) {
       app.mag.alert('小主，姓名还没未填哦');
@@ -397,33 +399,54 @@ Page({
       app.mag.alert('这个很关键，请先阅读并同意拼车协议哦');
       return;
     }
-    var params = {
+    var data = {
+
+      type:1,
+      depart: me.data.from_place,
+      reach: me.data.to_place,
+      date: me.data.date + ' ' + me.data.time,
+      number: me.data.countOfPassagers[me.data.defaultCountOfPassagers],
+      nameid: app.globalData.openid,
+      note: me.data.note,
       name: me.data.username,
       phone: me.data.userphone,
       sex: me.data.usersex == 1 ? 1 : 2,
-      from_place: me.data.from_place,
-      mid_place: '',
-      to_place: me.data.to_place,
-      start_time: me.data.date + ' ' + me.data.time,
-      user_count: me.data.countOfPassagers[me.data.defaultCountOfPassagers],
+      wx: me.data.car ? me.data.car : '',
 
-      note: me.data.note,
-      type: 1,
-      paySource: 1,
-      car: me.data.car ? me.data.car : '',
-      weight: '',
-      top: me.data.top,
-      top_len: me.data.isTopTime,
-      from_place_latitude: me.data.from_place_latitude, //起点纬度 @author--xp
-      from_place_longitude: me.data.from_place_longitude,//起点经度 @author--xp
-      to_place_latitude: me.data.to_place_latitude,//终点纬度 @author--xp
-      to_place_longitude: me.data.to_place_longitude,//终点经度 @author--xp
-      polyline: JSON.stringify(me.data.polyline), //起始点路线图保存字符串 @author--xp
-      distance: parseInt(me.data.distance),//起始点距离（米）@author--xp
-      price: parseFloat(me.data.price).toFixed(2),//单价快照 @author--xp
-      count: parseFloat(me.data.count).toFixed(2) //总价 @@author--xp
     };
-    console.log("return ", params);
+    app.wxRequest('POST', '/wetech-admin/newsapi/create', data, (res) => {
+      console.log("成功:" + res.data)
+
+      if (res.data.success == true) {
+        wx.showToast({
+          title: '发布成功!',
+          duration: 1000,
+          mask: true,
+          success: function () {
+            setTimeout(function () {
+              //要延时执行的代码
+              wx.switchTab({
+                url: '../index'
+              })
+            }, 1000) //延迟时间}
+          }
+        })
+      } else {
+        wx.showToast({
+          title: "发布失败！",
+          icon: "none",
+          duration: 2000
+        })
+      }
+
+    }, (err) => {
+      wx.showToast({
+        title: "发布失败！",
+        icon: "none",
+        duration: 2000
+      })
+    })
+
     
   },
   getLocation: function () {
